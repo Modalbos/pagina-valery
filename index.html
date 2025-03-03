@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Para Valery</title>
+  <style>
+    /* Background stars animation */
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-15px) translateX(10px); }
+      100% { transform: translateY(0) translateX(0); }
+    }
+    
+    @keyframes backgroundGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes pulsate {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      height: 100%;
+      color: #333;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #a31f1f, #000000, #021a25, #70021b);
+      background-size: 400% 400%;
+      animation: backgroundGradient 15s ease infinite;
+      position: relative;
+    }
+    
+    /* Stars background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .star {
+      position: absolute;
+      border-radius: 50%;
+    }
+    
+    .star-purple {
+      background-color: #9d4edd;
+      filter: drop-shadow(0 0 6px rgba(157, 78, 221, 0.8));
+    }
+    
+    .star-yellow {
+      background-color: #ffd60a;
+      filter: drop-shadow(0 0 6px rgba(255, 214, 10, 0.8));
+    }
+    
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+      max-width: 600px;
+      width: 80%;
+      backdrop-filter: blur(5px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      overflow: hidden;
+      z-index: 2;
+      margin: 20px;
+    }
+    
+    /* Floating hearts in the container background */
+    .floating-heart {
+      position: absolute;
+      font-size: 1.2rem;
+      color: rgba(214, 51, 132, 0.2);
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.8em;
+      color: #d63384;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      word-wrap: break-word;
+    }
+    
+    p {
+      font-size: 1.2em;
+      line-height: 1.8;
+      margin: 1em 0;
+      position: relative;
+    }
+    
+    .heart-container {
+      position: relative;
+      display: inline-block;
+      margin: 20px 0;
+    }
+    
+    .big-heart {
+      color: #7ad306;
+      font-size: 4em;
+      animation: pulsate 1.5s infinite;
+      display: inline-block;
+      filter: drop-shadow(0 0 10px rgba(232, 255, 21, 0.7));
+    }
+    
+    .footer-link {
+      margin-top: 20px;
+    }
+    
+    /* Glowing Button CSS from UI Universe */
+    button {
+     --glow-color: rgb(133, 111, 127);
+     --glow-spread-color: rgba(191, 123, 255, 0.781);
+     --enhanced-glow-color: rgb(222, 255, 101);
+     --btn-color: rgb(255, 255, 255);
+     border: .25em solid var(--glow-color);
+     padding: 1em 3em;
+     color: var(--glow-color);
+     font-size: 15px;
+     font-weight: bold;
+     background-color: var(--btn-color);
+     border-radius: 1em;
+     outline: none;
+     box-shadow: 0 0 1em .25em var(--glow-color),
+            0 0 4em 1em var(--glow-spread-color),
+            inset 0 0 .75em .25em var(--glow-color);
+     text-shadow: 0 0 .5em var(--glow-color);
+     position: relative;
+     transition: all 0.3s;
+     cursor: pointer;
+     width: auto;
+     max-width: 100%;
+    }
+    
+    button::after {
+     pointer-events: none;
+     content: "";
+     position: absolute;
+     top: 120%;
+     left: 0;
+     height: 100%;
+     width: 100%;
+     background-color: var(--glow-spread-color);
+     filter: blur(2em);
+     opacity: .7;
+     transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+    }
+    
+    button:hover {
+     color: var(--btn-color);
+     background-color: var(--glow-color);
+     box-shadow: 0 0 1em .25em var(--glow-color),
+            0 0 4em 2em var(--glow-spread-color),
+            inset 0 0 .75em .25em var(--glow-color);
+    }
+    
+    button:active {
+     box-shadow: 0 0 0.6em .25em var(--glow-color),
+            0 0 2.5em 2em var(--glow-spread-color),
+            inset 0 0 .5em .25em var(--glow-color);
+    }
+    
+    /* Media Queries for Mobile Responsiveness */
+    @media screen and (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+        width: 85%;
+        margin: 15px;
+      }
+      
+      h1 {
+        font-size: 2.2em;
+      }
+      
+      p {
+        font-size: 1em;
+        line-height: 1.6;
+      }
+      
+      .big-heart {
+        font-size: 3em;
+      }
+      
+      button {
+        padding: 0.8em 2em;
+        font-size: 14px;
+        display: block;
+        margin: 0 auto;
+        width: 80%;
+      }
+      
+      .footer-link {
+        margin-top: 15px;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 25px 15px;
+        width: 90%;
+      }
+      
+      h1 {
+        font-size: 1.8em;
+        margin-bottom: 0.6em;
+      }
+      
+      p {
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+      
+      .big-heart {
+        font-size: 2.5em;
+      }
+      
+      button {
+        padding: 0.7em 1.5em;
+        font-size: 13px;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  
+  <div class="container">
+    <div id="floating-hearts"></div>
+    <h1>Mi amado Valery <span class="heart">❤️</span></h1>
+    
+    <p>
+      Eres la persona más bonita del mundo y la más valiosa para mi corazón. Eres la razón de mi felicidad.
+    </p>
+    
+    <div class="heart-container">
+      <span class="big-heart">❤️</span>
+    </div>
+    
+    <p>
+      Con todo mi amor,
+      <br>
+      Siempre tuyo.
+    </p>
+    
+    <!-- Glowing button replacing the previous link -->
+    <div class="footer-link">
+      <button onclick="window.location.href='index2.html'">Ver Contrato</button>
+    </div>
+    <!-- Glowing button replacing the previous link -->
+    <div class="footer-link">
+      <button onclick="window.location.href='index3.html'">Ver galeria</button>
+    </div>
+  </div>
+
+  <script>
+    // Create stars in the background with purple and yellow colors
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starsCount = 100;
+      
+      for (let i = 0; i < starsCount; i++) {
+        const star = document.createElement('div');
+        
+        // Randomly choose between purple and yellow
+        const isYellow = Math.random() > 0.5;
+        star.className = isYellow ? 'star star-yellow' : 'star star-purple';
+        
+        // Random properties for each star
+        const size = Math.random() * 4 + 1;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 3 + 2;
+        
+        // Set style properties
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${left}%`;
+        star.style.top = `${top}%`;
+        star.style.animation = `twinkle ${duration}s ease-in-out ${delay}s infinite`;
+        
+        starsContainer.appendChild(star);
+      }
+    }
+    
+    // Create floating hearts in the container background
+    function createFloatingHearts() {
+      const container = document.getElementById('floating-hearts');
+      const heartsCount = 10;
+      const heartSymbols = ['❤️', '💕', '💖', '💗', '💓'];
+      
+      for (let i = 0; i < heartsCount; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        
+        // Random properties
+        const symbol = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const duration = Math.random() * 5 + 10;
+        const delay = Math.random() * 5;
+        const scale = Math.random() * 0.5 + 0.8;
+        
+        // Set content and style
+        heart.innerHTML = symbol;
+        heart.style.left = `${left}%`;
+        heart.style.top = `${top}%`;
+        heart.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        heart.style.transform = `scale(${scale})`;
+        heart.style.opacity = `${Math.random() * 0.3 + 0.1}`;
+        
+        container.appendChild(heart);
+      }
+    }
+    
+    // Function to adjust for mobile screens
+    function adjustForMobile() {
+      // Reduce number of stars on smaller screens
+      if (window.innerWidth <= 480) {
+        const stars = document.querySelectorAll('.star');
+        // Keep only about half the stars on mobile
+        for (let i = 0; i < stars.length; i++) {
+          if (i % 2 === 0) {
+            stars[i].style.display = 'none';
+          }
+        }
+      }
+    }
+    
+    // Execute on page load
+    window.onload = function() {
+      createStars();
+      createFloatingHearts();
+      adjustForMobile();
+    };
+    
+    // Also adjust when window is resized
+    window.addEventListener('resize', adjustForMobile);
+  </script>
+</body>
+</html>

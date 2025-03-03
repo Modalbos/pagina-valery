@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Fotos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Animated background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.7; /* Increased opacity for more vibrant hearts */
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            transform-origin: center;
+            animation: float 15s linear infinite, pulsate 2s ease-in-out infinite alternate;
+            opacity: 0.9; /* Increased opacity for more vibrant hearts */
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.6);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateY(50vh) translateX(calc(var(--drift) * 50px)) scale(1);
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--drift) * 100px)) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulsate {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Main title */
+        h1 {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 3.5rem; /* Larger font size */
+            background: linear-gradient(90deg, #ff6b6b, #6b6bff, #6bff6b); /* More vibrant gradient */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            animation: fadeIn 1.5s ease-out;
+            padding: 0 15px; /* Added padding for mobile */
+            word-wrap: break-word; /* Ensures text wraps properly on small screens */
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px; /* Thicker underline */
+            background: linear-gradient(90deg, #ff6b6b, #6b6bff, #6bff6b, #ff6b6b); /* More vibrant gradient */
+            border-radius: 4px;
+            animation: expandWidth 1.5s ease-out forwards, shimmer 3s infinite linear;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 150px; } /* Wider underline */
+        }
+
+        /* Gallery layout */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            border-radius: 15px; /* Rounder corners */
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15), 0 0 20px rgba(107,107,255,0.2); /* Enhanced shadow with color glow */
+            background-color: white;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            animation: slideUp 0.7s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-15px) scale(1.03); /* More dramatic lift */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 30px rgba(255,107,129,0.3); /* Enhanced shadow with color glow */
+            z-index: 1;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,107,107,0.3), rgba(107,107,255,0.3), rgba(107,255,107,0.3)); /* More vibrant gradient */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+            transform-origin: center;
+            filter: brightness(1.05); /* Slightly brighter images */
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-caption {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1rem; /* Larger text */
+            position: relative;
+            transition: all 0.3s ease;
+            background: white;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            background: linear-gradient(45deg, #ff6b8133, #6b6bff33); /* Light gradient background on hover */
+            color: #ff6b81;
+            font-weight: 600;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(8px);
+            padding: 20px; /* Added padding for mobile comfort */
+            box-sizing: border-box; /* Ensures padding is included in width calculation */
+        }
+
+        .modal:target {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 100%; /* Changed from 90% for better mobile fit */
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: zoomIn 0.4s ease;
+            width: 100%; /* Ensures full width utilization on mobile */
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal img {
+            max-width: 100%;
+            max-height: 70vh; /* Reduced from 80vh for better mobile fit */
+            border-radius: 12px; /* Rounder corners */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 40px rgba(107,107,255,0.4); /* Enhanced shadow with color glow */
+            transition: transform 0.3s ease;
+            object-fit: contain; /* Ensures image maintains aspect ratio */
+        }
+
+        .modal-caption {
+            margin-top: 20px;
+            color: white;
+            font-size: 1.3rem; /* Larger text */
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            padding: 12px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeSlideUp 0.6s ease;
+            box-shadow: 0 0 20px rgba(255,107,129,0.4); /* Glowing effect */
+            width: fit-content; /* Ensures the caption fits its content */
+            max-width: 100%; /* Prevents overflow on mobile */
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff6b81, #ff4757); /* Gradient background */
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255,107,129,0.6); /* Glowing effect */
+            z-index: 1001; /* Ensures the close button is above all content */
+        }
+
+        .close:hover {
+            background: linear-gradient(45deg, #ff4757, #ff6348); /* Darker gradient on hover */
+            transform: rotate(90deg);
+            box-shadow: 0 0 20px rgba(255,71,87,0.8); /* Enhanced glow on hover */
+        }
+
+        /* Navigation buttons */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Increased gap */
+            margin: 50px 0; /* Increased margin */
+            padding-bottom: 30px;
+            flex-wrap: wrap; /* Added for better mobile layout */
+            padding: 0 20px; /* Added padding for mobile comfort */
+        }
+
+        button {
+            border: none;
+            border-radius: 25px; /* Rounder corners */
+            background: linear-gradient(32deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+            font-family: 'Ropa Sans', sans-serif;
+            font-weight: bold;
+            letter-spacing: 0.05rem;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            width: 200px; /* Fixed width for consistency */
+            height: 50px; /* Fixed height for consistency */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2), 0 0 15px rgba(244,65,165,0.3);
+            margin: 10px 0; /* Added margin for better spacing on mobile */
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); /* Brighter shine */
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: white; /* White text by default */
+            font-size: 17px;
+            transition: all 0.4s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Text shadow for better readability */
+            border-radius: 25px; /* Match parent border-radius */
+        }
+
+        button:hover span {
+            backdrop-filter: blur(0);
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Enhanced glow on hover */
+        }
+
+        /* Responsive adjustments with media queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem; /* Smaller font size for mobile */
+                margin: 30px 0;
+            }
+
+            h1::after {
+                width: 100px; /* Smaller underline for mobile */
+            }
+
+            @keyframes expandWidth {
+                from { width: 0; }
+                to { width: 100px; } /* Adjusted for mobile */
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Smaller minimum size for gallery items */
+                gap: 15px; /* Reduced gap for mobile */
+                padding: 15px; /* Reduced padding for mobile */
+            }
+            
+            .gallery-item {
+                transform: translateY(20px); /* Smaller initial translation */
+            }
+            
+            .gallery-item:hover {
+                transform: translateY(-10px) scale(1.02); /* Smaller hover effect for mobile */
+            }
+            
+            .gallery-item img {
+                height: 180px; /* Smaller image height for mobile */
+            }
+            
+            .gallery-caption {
+                font-size: 1rem; /* Smaller caption font size for mobile */
+                padding: 10px; /* Reduced padding for mobile */
+            }
+            
+            .modal-caption {
+                font-size: 1.1rem; /* Smaller caption font size in modal for mobile */
+                padding: 10px 20px; /* Reduced padding for mobile */
+            }
+            
+            .close {
+                width: 40px; /* Smaller close button for mobile */
+                height: 40px; /* Smaller close button for mobile */
+                font-size: 24px; /* Smaller font size for mobile */
+                top: -45px; /* Adjusted position for mobile */
+            }
+            
+            button {
+                width: 160px; /* Smaller button width for mobile */
+                height: 45px; /* Smaller button height for mobile */
+            }
+            
+            button span {
+                font-size: 15px; /* Smaller font size for mobile */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem; /* Even smaller font size for very small devices */
+                margin: 25px 0;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr; /* Single column for very small devices */
+                gap: 12px; /* Further reduced gap for very small devices */
+            }
+            
+            .navigation {
+                gap: 15px; /* Reduced gap for very small devices */
+                margin: 30px 0; /* Reduced margin for very small devices */
+            }
+            
+            .modal img {
+                max-height: 60vh; /* Further reduced max height for very small devices */
+            }
+            
+            .heart {
+                /* Reduce number of hearts for performance on small devices */
+                opacity: 0.8;
+            }
+            
+            /* Optimize animations for battery life on mobile */
+            @keyframes pulsate {
+                0% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(1.1); /* Reduced scale change to improve performance */
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Hearts Background -->
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <h1>Galería de Fotos</h1>
+    <div class="gallery">
+        <!-- Imagen 1 -->
+        <div class="gallery-item">
+            <a href="#img1">
+                <img src="images/photo1.jpg" alt="Imagen 1">
+            </a>
+            <div class="gallery-caption">Naturaleza en primavera</div>
+        </div>
+        
+        <!-- Imagen 2 -->
+        <div class="gallery-item">
+            <a href="#img2">
+                <img src="images/photo2.jpg" alt="Imagen 2">
+            </a>
+            <div class="gallery-caption">Atardecer en la playa</div>
+        </div>
+        
+        <!-- Imagen 3 -->
+        <div class="gallery-item">
+            <a href="#img3">
+                <img src="images/photo3.jpg" alt="Imagen 3">
+            </a>
+            <div class="gallery-caption">Montañas al amanecer</div>
+        </div>
+        
+        <!-- Imagen 4 -->
+        <div class="gallery-item">
+            <a href="#img4">
+                <img src="images/photo4.jpg" alt="Imagen 4">
+            </a>
+            <div class="gallery-caption">Arquitectura urbana</div>
+        </div>
+        
+        <!-- Imagen 5 -->
+        <div class="gallery-item">
+            <a href="#img5">
+                <img src="images/photo5.jpg" alt="Imagen 5">
+            </a>
+            <div class="gallery-caption">Flores silvestres</div>
+        </div>
+        
+        <!-- Imagen 6 -->
+        <div class="gallery-item">
+            <a href="#img6">
+                <img src="images/photo6.jpg" alt="Imagen 6">
+            </a>
+            <div class="gallery-caption">Paisaje de invierno</div>
+        </div>
+    </div>
+    
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <a href="index.html">
+            <button>
+                <span>Página Principal</span>
+            </button>
+        </a>
+        <a href="index2.html">
+            <button>
+                <span>Siguiente Galería</span>
+            </button>
+        </a>
+    </div>
+    
+    <!-- Modal 1 -->
+    <div class="modal" id="img1">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo1.jpg" alt="Imagen 1">
+            <div class="modal-caption">Naturaleza en primavera</div>
+        </div>
+    </div>
+    
+    <!-- Modal 2 -->
+    <div class="modal" id="img2">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo2.jpg" alt="Imagen 2">
+            <div class="modal-caption">Atardecer en la playa</div>
+        </div>
+    </div>
+    
+    <!-- Modal 3 -->
+    <div class="modal" id="img3">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo3.jpg" alt="Imagen 3">
+            <div class="modal-caption">Montañas al amanecer</div>
+        </div>
+    </div>
+    
+    <!-- Modal 4 -->
+    <div class="modal" id="img4">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo4.jpg" alt="Imagen 4">
+            <div class="modal-caption">Arquitectura urbana</div>
+        </div>
+    </div>
+    
+    <!-- Modal 5 -->
+    <div class="modal" id="img5">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo5.jpg" alt="Imagen 5">
+            <div class="modal-caption">Flores silvestres</div>
+        </div>
+    </div>
+    
+    <!-- Modal 6 -->
+    <div class="modal" id="img6">
+        <div class="modal-content">
+            <a href="#" class="close">&times;</a>
+            <img src="images/photo6.jpg" alt="Imagen 6">
+            <div class="modal-caption">Paisaje de invierno</div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated hearts in the background
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartsContainer = document.getElementById('hearts-container');
+            // Enhanced color palette for more vibrant hearts
+            const colors = ['#ff6b81', '#ff9ff3', '#feca57', '#ff9f43', '#54a0ff', '#6c5ce7', '#1dd1a1', '#ff6348', '#5f27cd', '#48dbfb'];
+            
+            // Adjust number of hearts based on screen size for better performance
+            const isMobile = window.innerWidth <= 768;
+            const heartCount = isMobile ? 15 : 30; // Fewer hearts on mobile
+            
+            // Create hearts
+            for (let i = 0; i < heartCount; i++) {
+                createHeart();
+            }
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Randomize heart properties
+                const size = Math.random() * (isMobile ? 20 : 30) + 10; // Smaller hearts on mobile
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const startPositionX = Math.random() * 100; // Random horizontal position
+                const duration = Math.random() * 10 + (isMobile ? 8 : 10); // Slightly faster on mobile
+                const delay = Math.random() * 5; // Random animation delay
+                const drift = Math.random() * 2 - 1; // Random horizontal drift
+                
+                // Apply properties
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.left = `${startPositionX}%`;
+                heart.style.animationDuration = `${duration}s, 2s`;
+                heart.style.animationDelay = `${delay}s, ${delay}s`;
+                heart.style.setProperty('--drift', drift);
+                
+                // Apply custom color to SVG heart
+                const svgHeart = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                `;
+                heart.style.background = `url("data:image/svg+xml;utf8,${encodeURIComponent(svgHeart)}") no-repeat center center`;
+                heart.style.backgroundSize = 'contain';
+                
+                // Add to container
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation completes and create a new one
+                heart.addEventListener('animationend', function(e) {
+                    if (e.animationName === 'float') {
+                        heart.remove();
+                        createHeart();
+                    }
+                });
+            }
+            
+            // Handle window resize to adjust heart count dynamically
+            window.addEventListener('resize', function() {
+                const newIsMobile = window.innerWidth <= 768;
+                // Only adjust if mobile state changed
+                if (newIsMobile !== isMobile) {
+                    // Clear existing hearts
+                    heartsContainer.innerHTML = '';
+                    // Create new appropriate number of hearts
+                    const newHeartCount = newIsMobile ? 15 : 30;
+                    for (let i = 0; i < newHeartCount; i++) {
+                        createHeart();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
