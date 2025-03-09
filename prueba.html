@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Galería de momentos únicos y especiales compartidos juntos">
+<meta name="description" content="Fotos en las que aparecemos juntos y me gustan">
 <meta name="keywords" content="fotos, galería, momentos, especiales, recuerdos, únicos">
 <title>Momentos Únicos | Nuestra Galería</title>
 <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,11 +33,11 @@
 }
 
 .lightbox-content {
+  position: relative;
   max-width: 90%;
   max-height: 90%;
   transform: scale(0.9);
   transition: transform 0.3s ease;
-  position: relative;
 }
 
 .lightbox.active .lightbox-content {
@@ -45,11 +45,17 @@
 }
 
 .lightbox-image {
+  display: block;
   max-width: 100%;
   max-height: 90vh;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-video {
   display: block;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  max-width: 100%;
+  max-height: 90vh;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
 }
 
 .lightbox-close {
@@ -58,19 +64,18 @@
   right: -40px;
   width: 30px;
   height: 30px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  z-index: 1001;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s ease;
 }
 
 .lightbox-close:hover {
-  background-color: white;
-  transform: scale(1.1);
+  background-color: #f0f0f0;
 }
 
 .lightbox-close::before,
@@ -90,27 +95,80 @@
   transform: rotate(-45deg);
 }
 
-/* Mobile Enhancements */
+/* Video Thumbnail Styling */
+.video-thumbnail-container {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.video-thumbnail-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.video-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.video-play-icon::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 16px;
+  border-color: transparent transparent transparent white;
+  margin-left: 4px;
+}
+
+.video-thumbnail-container:hover .video-play-icon {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.video-thumbnail-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Mobile touch improvements */
 @media (max-width: 768px) {
   .lightbox-close {
     top: -30px;
     right: -10px;
   }
+  
+  .video-play-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .video-play-icon::before {
+    border-width: 8px 0 8px 12px;
+  }
 }
 
-/* Improving the gallery for better lightbox integration */
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.gallery-item img {
+/* Update gallery items to show pointer */
+.gallery-item img, .gallery-item .video-thumbnail-container {
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
-.gallery-item img:hover {
-  transform: scale(1.03);
+/* Ensure videos maintain aspect ratio */
+.gallery-item video {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
 }
 </style>
 </head>
@@ -137,55 +195,184 @@
 </nav>
 </div>
 </header>
-<h1 class="page-title">Momentos Únicos</h1>
+<h1 class="page-title">fotos ramdom que me gustaron</h1>
 <div class="gallery">
 <!-- Imagen 1 -->
 <div class="gallery-item">
-<img src="images/foto1.jpeg" alt="Imagen 1" class="gallery-image">
-<div class="gallery-caption">De las primeras fotos juntos en tu casa</div>
+<img src="images/picnic1.jpeg" alt="Imagen 1" loading="lazy">
+<div class="gallery-caption">un gran dia de picnic</div>
 </div>
 <!-- Imagen 2 -->
 <div class="gallery-item">
-<img src="images/fotoboda1.jpeg" alt="Imagen 2" class="gallery-image">
-<div class="gallery-caption">Foto antes de nuestra primera boda ajena juntos</div>
+<img src="images/picnicdibu.jpeg" alt="Imagen 2" loading="lazy">
+<div class="gallery-caption">un gran recuerdo del picnic</div>
+</div>
+<!-- Video 1 - Ejemplo de vídeo en la galería -->
+<div class="gallery-item" data-type="video" data-video="videos/video1.mp4">
+<div class="video-thumbnail-container">
+<img src="images/video-thumbnail1.jpg" alt="Video 1 Thumbnail" loading="lazy">
+<div class="video-play-icon"></div>
+</div>
+<div class="gallery-caption">nuestro primer viaje juntos</div>
 </div>
 <!-- Imagen 3 -->
 <div class="gallery-item">
-<img src="images/fotoboda3.jpeg" alt="Imagen 3" class="gallery-image">
-<div class="gallery-caption">Otra foto antes de nuestra primera boda ajena juntos</div>
+<img src="images/foto4.jpeg" alt="Imagen 3" loading="lazy">
+<div class="gallery-caption">esta foto fue antes de ver la peli de nosferatu</div>
+</div>
+<!-- Imagen 4 -->
+<div class="gallery-item">
+<img src="images/dormids.jpeg" alt="Imagen 4" loading="lazy">
+<div class="gallery-caption">recien despiertos</div>
+</div>
+<!-- Video 2 - Otro ejemplo de vídeo -->
+<div class="gallery-item" data-type="video" data-video="videos/video2.mp4">
+<div class="video-thumbnail-container">
+<img src="images/video-thumbnail2.jpg" alt="Video 2 Thumbnail" loading="lazy">
+<div class="video-play-icon"></div>
+</div>
+<div class="gallery-caption">nuestro día en la playa</div>
+</div>
+<!-- Imagen 5 -->
+<div class="gallery-item">
+<img src="images/gym.jpeg" alt="Imagen 5" loading="lazy">
+<div class="gallery-caption">dia de gym juntossss</div>
+</div>
+<!-- Imagen 6 -->
+<div class="gallery-item">
+<img src="images/gym5.jpeg" alt="Imagen 6" loading="lazy">
+<div class="gallery-caption">me encantan estas fotos por estar en el gym contigo y por como salimos</div>
+</div>
+<!-- Imagen 7 -->
+<div class="gallery-item">
+<img src="images/gym7.jpeg" alt="Imagen 7" loading="lazy">
+<div class="gallery-caption">estos dias me gustaron mucho</div>
+</div>
+<!-- Video 3 - Otro ejemplo más -->
+<div class="gallery-item" data-type="video" data-video="vids/dardos.mp4">
+<div class="video-thumbnail-container">
+<img src="images/miniatura.jpeg" alt="Video 3 Thumbnail" loading="lazy">
+<div class="video-play-icon"></div>
+</div>
+<div class="gallery-caption">bailando juntos</div>
+</div>
+<!-- Imagen 8 -->
+<div class="gallery-item">
+<img src="images/lindopelo.jpeg" alt="Imagen 8" loading="lazy">
+<div class="gallery-caption">fue el dia de las justas y la verdad ese pelo te quedaba muy bien</div>
+</div>
+<!-- Imagen 9 -->
+<div class="gallery-item">
+<img src="images/dia.jpeg" alt="Imagen 9" loading="lazy">
+<div class="gallery-caption">un buen dia estabamos juntos jugando a las switch y yo perdi bastante jssjsjsj</div>
 </div>
 </div>
 
-<!-- Lightbox Container -->
+<!-- Lightbox Container - Now supports both images and videos -->
 <div class="lightbox" id="lightbox">
   <div class="lightbox-content">
-    <img src="" alt="" class="lightbox-image" id="lightbox-image">
+    <!-- Image container - will be shown/hidden as needed -->
+    <img src="" alt="Lightbox Image" class="lightbox-image" id="lightbox-image">
+    
+    <!-- Video container - will be shown/hidden as needed -->
+    <video controls class="lightbox-video" id="lightbox-video" style="display: none;">
+      <source src="" type="video/mp4" id="video-source-mp4">
+      Tu navegador no soporta la reproducción de videos.
+    </video>
+    
     <div class="lightbox-close" id="lightbox-close"></div>
   </div>
 </div>
 
 <script>
-// Lightbox Functionality
+// Enhanced Lightbox Functionality for Images and Videos
 document.addEventListener('DOMContentLoaded', function() {
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxVideo = document.getElementById('lightbox-video');
+  const videoSourceMP4 = document.getElementById('video-source-mp4');
   const lightboxClose = document.getElementById('lightbox-close');
-  const galleryImages = document.querySelectorAll('.gallery-image');
+  const galleryImages = document.querySelectorAll('.gallery-item img');
+  const videoItems = document.querySelectorAll('.gallery-item[data-type="video"]');
   
-  // Open lightbox when clicking on a gallery image
+  // Function to open lightbox with image
+  function openImageLightbox(imageSrc) {
+    // Hide video, show image
+    lightboxVideo.style.display = 'none';
+    lightboxImage.style.display = 'block';
+    
+    // Set image source
+    lightboxImage.src = imageSrc;
+    
+    // Activate lightbox
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+  
+  // Function to open lightbox with video
+  function openVideoLightbox(videoSrc) {
+    // Hide image, show video
+    lightboxImage.style.display = 'none';
+    lightboxVideo.style.display = 'block';
+    
+    // Set video source
+    videoSourceMP4.src = videoSrc;
+    
+    // Load video
+    lightboxVideo.load();
+    
+    // Activate lightbox
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+    
+    // Auto-play video when lightbox is fully visible
+    setTimeout(() => {
+      lightboxVideo.play().catch(error => {
+        console.log('Auto-play prevented. User must interact with the document first.');
+      });
+    }, 300);
+  }
+  
+  // Function to close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    
+    // Pause video if playing
+    lightboxVideo.pause();
+    
+    setTimeout(() => {
+      // Reset sources
+      lightboxImage.src = '';
+      videoSourceMP4.src = '';
+    }, 300); // Wait for transition to complete
+    
+    document.body.style.overflow = ''; // Re-enable scrolling
+  }
+  
+  // Add click event to each gallery image
   galleryImages.forEach(image => {
-    image.addEventListener('click', function() {
-      lightboxImage.src = this.src;
-      lightboxImage.alt = this.alt;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    // Skip images inside video thumbnails
+    if (!image.closest('.video-thumbnail-container')) {
+      image.addEventListener('click', function() {
+        openImageLightbox(this.src);
+      });
+    }
+  });
+  
+  // Add click event to each video item
+  videoItems.forEach(videoItem => {
+    const thumbnailContainer = videoItem.querySelector('.video-thumbnail-container');
+    const videoSrc = videoItem.dataset.video;
+    
+    thumbnailContainer.addEventListener('click', function() {
+      openVideoLightbox(videoSrc);
     });
   });
   
   // Close lightbox when clicking the close button
   lightboxClose.addEventListener('click', closeLightbox);
   
-  // Close lightbox when clicking outside the image
+  // Close lightbox when clicking outside the content
   lightbox.addEventListener('click', function(e) {
     if (e.target === lightbox) {
       closeLightbox();
@@ -199,48 +386,89 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Function to close the lightbox
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
-    
-    // Clear the image source after transition (optional)
-    setTimeout(() => {
-      if (!lightbox.classList.contains('active')) {
-        lightboxImage.src = '';
-      }
-    }, 300);
-  }
+  // Mobile touch swipe support
+  let touchStartY;
+  let touchEndY;
   
-  // Touch swipe detection for mobile (optional)
-  let touchStartX = 0;
-  let touchEndX = 0;
-  
-  lightbox.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
+  lightbox.addEventListener('touchstart', function(e) {
+    touchStartY = e.changedTouches[0].screenY;
   }, false);
   
-  lightbox.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, false);
-  
-  function handleSwipe() {
-    const swipeDistance = touchEndX - touchStartX;
-    // If user swipes more than 100px, close the lightbox
-    if (Math.abs(swipeDistance) > 100) {
+  lightbox.addEventListener('touchend', function(e) {
+    touchEndY = e.changedTouches[0].screenY;
+    if (touchEndY - touchStartY > 50) { // Swipe down
       closeLightbox();
     }
+  }, false);
+
+  // Filter system functionality for both images and videos
+  // This would be added if the original gallery had filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-button');
+  if (filterButtons.length > 0) {
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const filter = this.dataset.filter;
+        
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter items
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (filter === 'all') {
+            item.style.display = 'block';
+          } else {
+            const itemType = item.dataset.type || 'image';
+            if (itemType === filter) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          }
+        });
+      });
+    });
   }
-  
-  // Menu Toggle Functionality (preserving existing functionality)
-  const menuToggle = document.getElementById('menu-toggle');
-  const navLinks = document.getElementById('nav-links');
-  
-  menuToggle.addEventListener('click', function() {
-    navLinks.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-  });
+});
+
+// Your existing JS for menu toggle
+document.getElementById('menu-toggle').addEventListener('click', function() {
+  document.getElementById('nav-links').classList.toggle('show');
+  this.classList.toggle('active');
+});
+
+// Lazy loading functionality for videos
+document.addEventListener('DOMContentLoaded', function() {
+  // Use Intersection Observer for better performance
+  if ('IntersectionObserver' in window) {
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const videoItem = entry.target;
+          const videoSrc = videoItem.dataset.video;
+          
+          // Preload the video when the item is visible
+          if (videoSrc) {
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.as = 'video';
+            preloadLink.href = videoSrc;
+            document.head.appendChild(preloadLink);
+            
+            // Stop observing after loading
+            observer.unobserve(videoItem);
+          }
+        }
+      });
+    }, {
+      rootMargin: '0px 0px 200px 0px' // Load when getting within 200px
+    });
+    
+    // Observe all video items
+    document.querySelectorAll('.gallery-item[data-type="video"]').forEach(item => {
+      videoObserver.observe(item);
+    });
+  }
 });
 </script>
 </body>
