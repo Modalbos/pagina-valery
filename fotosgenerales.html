@@ -1,69 +1,231 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fotos en las que aparecemos juntos y me gustan">
-    <meta name="keywords" content="fotos, galería, momentos, especiales, recuerdos, únicos">
-    <title>Momentos Únicos | Nuestra Galería</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fotos en las que aparecemos juntos y me gustan">
+<meta name="keywords" content="fotos, galería, momentos, especiales, recuerdos, únicos">
+<title>Momentos Únicos | Nuestra Galería</title>
+<link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Lightbox Styles */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.lightbox.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: 90vh;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background-color: #f0f0f0;
+}
+
+.lightbox-close::before,
+.lightbox-close::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 2px;
+  background-color: #333;
+}
+
+.lightbox-close::before {
+  transform: rotate(45deg);
+}
+
+.lightbox-close::after {
+  transform: rotate(-45deg);
+}
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+  .lightbox-close {
+    top: -30px;
+    right: -10px;
+  }
+}
+
+/* Update gallery items to show pointer */
+.gallery-item img {
+  cursor: pointer;
+}
+</style>
 </head>
 <body>
-    <!-- Animated Hearts Background -->
-    <div class="hearts-container" id="hearts-container"></div>
+<!-- Animated Hearts Background -->
+<div class="hearts-container" id="hearts-container"></div>
+<!-- Header with Navigation -->
+<header class="site-header">
+<div class="container">
+<nav class="nav">
+<div class="logo">Nuestros Recuerdos</div>
+<div class="menu-toggle" id="menu-toggle">
+<span></span>
+<span></span>
+<span></span>
+</div>
+<ul class="nav-links" id="nav-links">
+<li><a href="index.html">Inicio</a></li>
+<li><a href="momentosunicos.html" class="active">Momentos Únicos</a></li>
+<li><a href="fotosgenerales.html">Fotos Generales</a></li>
+<li><a href="#">Futuras Aventuras</a></li>
+<li><a href="#">Nosotros</a></li>
+</ul>
+</nav>
+</div>
+</header>
+<h1 class="page-title">fotos ramdom que me gustaron</h1>
+<div class="gallery">
+<!-- Imagen 1 -->
+<div class="gallery-item">
+<img src="images/picnic1.jpeg" alt="Imagen 1">
+<div class="gallery-caption">un gran dia de picnic</div>
+</div>
+<!-- Imagen 2 -->
+<div class="gallery-item">
+<img src="images/picnicdibu.jpeg" alt="Imagen 2">
+<div class="gallery-caption">un gran recuerdo del picnic</div>
+</div>
+<!-- Imagen 3 -->
+<div class="gallery-item">
+<img src="images/foto4.jpeg" alt="Imagen 3">
+<div class="gallery-caption">Otra foto antes de nuestra primera boda ajena juntos</div>
+</div>
+<!-- Imagen 4 -->
+<div class="gallery-item">
+<img src="images/foto4.jpeg" alt="Imagen 3">
+<div class="gallery-caption">Otra foto antes de nuestra primera boda ajena juntos</div>
+</div>
+</div>
 
-    <!-- Header with Navigation -->
-    <header class="site-header">
-        <div class="container">
-            <nav class="nav">
-                <div class="logo">Nuestros Recuerdos</div>
-                <div class="menu-toggle" id="menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="momentosunicos.html" class="active">Momentos Únicos</a></li>
-                    <li><a href="fotosgenerales.html">Fotos Generales</a></li>
-                    <li><a href="#">Futuras Aventuras</a></li>
-                    <li><a href="#">Nosotros</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<!-- Lightbox Container -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <img src="" alt="Lightbox Image" class="lightbox-image" id="lightbox-image">
+    <div class="lightbox-close" id="lightbox-close"></div>
+  </div>
+</div>
 
-    <h1 class="page-title">fotos ramdom que me gustaron</h1>
-    
-    <div class="gallery">
-        <!-- Imagen 1 -->
-        <div class="gallery-item">
-            <a href="#img1">
-                <img src="images/picnic1.jpeg" alt="Imagen 1">
-            </a>
-            <div class="gallery-caption">un gran dia de picnic</div>
-        </div>
-        
-        <!-- Imagen 2 -->
-        <div class="gallery-item">
-            <a href="#img2">
-                <img src="images/picnicdibu.jpeg" alt="Imagen 2">
-            </a>
-            <div class="gallery-caption">un gran recuerdo del picnic</div>
-        </div>
-        
-        <!-- Imagen 3 -->
-        <div class="gallery-item">
-            <a href="#img3">
-                <img src="images/foto4.jpeg" alt="Imagen 3">
-            </a>
-            <div class="gallery-caption">Otra foto antes de nuestra primera boda ajena juntos</div>
-        </div>
-          <!-- Imagen 3 -->
-          <div class="gallery-item">
-            <a href="#img3">
-                <img src="images/foto4.jpeg" alt="Imagen 3">
-            </a>
-            <div class="gallery-caption">Otra foto antes de nuestra primera boda ajena juntos</div>
-        </div>
+<script>
+// Lightbox Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const galleryImages = document.querySelectorAll('.gallery-item img');
+  
+  // Function to open lightbox
+  function openLightbox(imageSrc) {
+    lightboxImage.src = imageSrc;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+  
+  // Function to close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    setTimeout(() => {
+      lightboxImage.src = '';
+    }, 300); // Wait for transition to complete
+    document.body.style.overflow = ''; // Re-enable scrolling
+  }
+  
+  // Add click event to each gallery image
+  galleryImages.forEach(image => {
+    image.addEventListener('click', function() {
+      openLightbox(this.src);
+    });
+  });
+  
+  // Close lightbox when clicking the close button
+  lightboxClose.addEventListener('click', closeLightbox);
+  
+  // Close lightbox when clicking outside the image
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+  
+  // Close lightbox when pressing ESC key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+  
+  // Mobile touch swipe support (optional)
+  let touchStartY;
+  let touchEndY;
+  
+  lightbox.addEventListener('touchstart', function(e) {
+    touchStartY = e.changedTouches[0].screenY;
+  }, false);
+  
+  lightbox.addEventListener('touchend', function(e) {
+    touchEndY = e.changedTouches[0].screenY;
+    if (touchEndY - touchStartY > 50) { // Swipe down
+      closeLightbox();
+    }
+  }, false);
+});
+
+// Your existing JS for menu toggle, etc. would go here
+document.getElementById('menu-toggle').addEventListener('click', function() {
+  document.getElementById('nav-links').classList.toggle('show');
+  this.classList.toggle('active');
+});
+</script>
+</body>
+</html>
