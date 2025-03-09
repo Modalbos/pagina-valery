@@ -1,0 +1,51 @@
+Here's the English version of the prompt:
+
+---
+
+**Analyze the HTML/CSS/JavaScript code I will provide and implement the following improvements:**
+
+1. **Code Optimization**:  
+   - Reduce code size while preserving functionality  
+   - Simplify CSS selectors and merge redundant rules  
+   - Implement performance best practices  
+   - Minify resources where possible without losing readability  
+
+2. **Main Page (index.html)**:  
+   Create a homepage featuring:  
+   - Responsive header with navigation menu containing:  
+     * Link to 'Unique Moments' (momentosunicos.html)  
+     * Link to 'General Photos' (fotosgenerales.html)  
+     * Space for future sections (include 2 placeholders)  
+   - Cohesive design using shared CSS  
+   - Featured section with gallery preview  
+   - Consistent footer across all pages  
+
+3. **Template System**:  
+   - Create shared styles.css for all pages  
+   - Modular HTML structure for easy expansion  
+   - Active navigation highlighting for current section  
+   - Responsive layout using CSS Grid/Flexbox  
+
+4. **Scalability**:  
+   - Future-proof structure for at least 4 additional sections  
+   - Reusable CSS utility classes  
+   - Code comments for future updates  
+   - Easy global style update mechanism  
+
+**Requirements**:  
+- Consistent styling across all pages  
+- Navigation menu with hover effects  
+- BEM methodology for CSS classes  
+- Basic SEO preconfiguration  
+- Modern minimalist design  
+- Cross-browser compatibility  
+
+**Deliverables**:  
+- Organized code split into files (index.html, momentosunicos.html, fotosgenerales.html, styles.css)  
+- Spanish comments explaining key sections  
+- Clear separation of concerns  
+- Ready-to-add section placeholders  
+
+---
+
+This version maintains all original requirements while making it more universal for AI processing. Would you like me to adjust any specific part or emphasize particular aspects? 😊

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Galería de fotos personales y momentos especiales">
+    <meta name="keywords" content="fotos, galería, momentos, especiales, recuerdos">
+    <title>Nuestra Galería de Recuerdos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated Hearts Background -->
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <!-- Header with Navigation -->
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">Nuestros Recuerdos</div>
+                <div class="menu-toggle" id="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="momentosunicos.html">Momentos Únicos</a></li>
+                    <li><a href="fotosgenerales.html">Fotos Generales</a></li>
+                    <li><a href="#">Futuras Aventuras</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h1 class="page-title">Nuestra Galería de Recuerdos</h1>
+    
+    <!-- Featured Section -->
+    <section class="featured container">
+        <h2>Momentos Destacados</h2>
+        <p>Bienvenido a nuestra colección de recuerdos especiales. Aquí encontrarás los momentos más importantes que hemos compartido juntos.</p>
+        
+        <div class="featured-gallery">
+            <!-- Featured Item 1 -->
+            <div class="gallery-item">
+                <a href="momentosunicos.html">
+                    <img src="images/foto1.jpeg" alt="Momento especial">
+                </a>
+                <div class="gallery-caption">Momentos Únicos</div>
+            </div>
+            
+            <!-- Featured Item 2 -->
+            <div class="gallery-item">
+                <a href="fotosgenerales.html">
+                    <img src="images/fotoboda1.jpeg" alt="Foto general">
+                </a>
+                <div class="gallery-caption">Fotos Generales</div>
+            </div>
+            
+            <!-- Featured Item 3 -->
+            <div class="gallery-item">
+                <a href="#">
+                    <img src="images/picnic1.jpeg" alt="Picnic">
+                </a>
+                <div class="gallery-caption">Próximamente Más</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <a href="momentosunicos.html" class="btn">
+            <button>
+                <span>Momentos Únicos</span>
+            </button>
+        </a>
+        <a href="fotosgenerales.html" class="btn">
+            <button>
+                <span>Fotos Generales</span>
+            </button>
+        </a>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Nuestra Galería de Recuerdos</p>
+            <p>Con amor ilde, para ti</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Create animated hearts in the background
+            const heartsContainer = document.getElementById('hearts-container');
+            // Enhanced color palette for more vibrant hearts
+            const colors = ['#ff6b81', '#ff9ff3', '#feca57', '#ff9f43', '#54a0ff', '#6c5ce7', '#1dd1a1', '#ff6348', '#5f27cd', '#48dbfb'];
+            
+            // Adjust number of hearts based on screen size for better performance
+            const isMobile = window.innerWidth <= 768;
+            const heartCount = isMobile ? 15 : 30; // Fewer hearts on mobile
+            
+            // Create hearts
+            for (let i = 0; i < heartCount; i++) {
+                createHeart();
+            }
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Randomize heart properties
+                const size = Math.random() * (isMobile ? 20 : 30) + 10; // Smaller hearts on mobile
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const startPositionX = Math.random() * 100; // Random horizontal position
+                const duration = Math.random() * 10 + (isMobile ? 8 : 10); // Slightly faster on mobile
+                const delay = Math.random() * 5; // Random animation delay
+                const drift = Math.random() * 2 - 1; // Random horizontal drift
+                
+                // Apply properties
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.left = `${startPositionX}%`;
+                heart.style.animationDuration = `${duration}s, 2s`;
+                heart.style.animationDelay = `${delay}s, ${delay}s`;
+                heart.style.setProperty('--drift', drift);
+                
+                // Apply custom color to SVG heart
+                const svgHeart = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                `;
+                heart.style.background = `url("data:image/svg+xml;utf8,${encodeURIComponent(svgHeart)}") no-repeat center center`;
+                heart.style.backgroundSize = 'contain';
+                
+                // Add to container
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation completes and create a new one
+                heart.addEventListener('animationend', function(e) {
+                    if (e.animationName === 'float') {
+                        heart.remove();
+                        createHeart();
+                    }
+                });
+            }
+            
+            // Handle window resize to adjust heart count dynamically
+            window.addEventListener('resize', function() {
+                const newIsMobile = window.innerWidth <= 768;
+                // Only adjust if mobile state changed
+                if (newIsMobile !== isMobile) {
+                    // Clear existing hearts
+                    heartsContainer.innerHTML = '';
+                    // Create new appropriate number of hearts
+                    const newHeartCount = newIsMobile ? 15 : 30;
+                    for (let i = 0; i < newHeartCount; i++) {
+                        createHeart();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
